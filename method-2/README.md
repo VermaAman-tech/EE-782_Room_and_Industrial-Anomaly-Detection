@@ -30,68 +30,6 @@ The **Multimodal Room Monitor** is an advanced real-time anomaly detection and e
 
 ## System Architecture
 
-### Pipeline Diagram (Mermaid)
-
-```mermaid
-flowchart LR
-  CAM[Camera (video frames)]
-  MIC[Microphone (audio stream)]
-
-  IMG_PRE[Image Preprocessing: denoise, wavelets, flow]
-  AUD_PRE[Audio Preprocessing: resample, STFT, mel, CWT]
-
-  DET[YOLO / DETR Detector]
-  TRK[ByteTrack Tracker]
-  SEG[SAM Segmenter]
-  FLOW[Optical Flow and Motion Analysis]
-
-  AST[AST Model]
-  WV2[Wav2Vec2]
-  HUB[HuBERT]
-  SPEC[Spectral Features]
-
-  PROJ[Projection and Positional Embeddings]
-  XATT[Cross Modal Transformer]
-  POOL[Temporal Pooling]
-  HEADS[Task Heads: Motion & Event Classifier]
-
-  ANOM[Anomaly Scoring]
-  LOG[Event Logging]
-  DASH[Streamlit Dashboard]
-  ARTIFACTS[Saved Artifacts]
-
-  %% Connections
-  CAM --> IMG_PRE
-  MIC --> AUD_PRE
-
-  IMG_PRE --> DET
-  DET --> TRK
-  DET --> SEG
-  IMG_PRE --> FLOW
-  FLOW --> VIS_RESULTS[Visual Tokens]
-
-  AUD_PRE --> AST
-  AUD_PRE --> WV2
-  AUD_PRE --> HUB
-  AUD_PRE --> SPEC
-  AST --> AUD_EMB[Audio Embeddings]
-  WV2 --> AUD_EMB
-  HUB --> AUD_EMB
-  SPEC --> AUD_FEAT[Audio Tokens]
-
-  TRK --> VIS_RESULTS
-  SEG --> VIS_RESULTS
-
-  VIS_RESULTS --> PROJ
-  AUD_EMB --> PROJ
-  AUD_FEAT --> PROJ
-
-  PROJ --> XATT --> POOL --> HEADS
-
-  HEADS --> ANOM
-  ANOM --> LOG
-  LOG --> DASH
-  DASH --> ARTIFACTS
 
 
 ```
