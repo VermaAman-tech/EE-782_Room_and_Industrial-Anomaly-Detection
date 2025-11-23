@@ -31,7 +31,7 @@ The **Multimodal Room Monitor** is an advanced real-time anomaly detection and e
 ## System Architecture
 
 flowchart LR
-
+```mermaid
   %% Sensors
   subgraph SENSORS [Input Layer]
     CAM["Camera (video frames)"]
@@ -109,6 +109,7 @@ flowchart LR
   LOG --> DASH
   DASH --> ARTIFACTS
 
+```
 ### High-Level Architecture
 
 ```
