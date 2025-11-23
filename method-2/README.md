@@ -30,6 +30,75 @@ The **Multimodal Room Monitor** is an advanced real-time anomaly detection and e
 
 ## System Architecture
 
+```mermaid
+graph TB
+    subgraph INPUT["INPUT LAYER"]
+        Camera["Camera<br/>(Video)"]
+        Microphone["Microphone<br/>(Audio)"]
+    end
+    
+    subgraph PREPROCESS["PREPROCESSING LAYER"]
+        ImgPrep["Image Preprocessing<br/>- Denoising<br/>- Wavelets"]
+        AudioPrep["Audio Preprocessing<br/>- Resampling<br/>- Normalize"]
+    end
+    
+    subgraph ANALYSIS["ANALYSIS LAYER"]
+        subgraph VISUAL["VISUAL ANALYSIS"]
+            YOLO["YOLO<br/>Detector"]
+            ByteTrack["ByteTrack<br/>Tracker"]
+            MobileSAM["MobileSAM<br/>Segmenter"]
+            OptFlow["Optical<br/>Flow"]
+        end
+        
+        subgraph AUDIO["AUDIO ANALYSIS"]
+            AST["AST<br/>Model"]
+            Wav2Vec2["Wav2Vec2<br/>Model"]
+            HuBERT["HuBERT<br/>Model"]
+            Spectral["Spectral<br/>Features"]
+        end
+    end
+    
+    subgraph FUSION["FUSION LAYER"]
+        Transformer["Cross-Modal Transformer<br/>- Multi-Head Cross-Attention<br/>- Visual-Audio Alignment<br/>- Temporal Feature Fusion"]
+    end
+    
+    subgraph OUTPUT["OUTPUT LAYER"]
+        Anomaly["Anomaly<br/>Detection"]
+        Event["Event<br/>Logging"]
+        Motion["Motion<br/>Analysis"]
+        Dashboard["Dashboard<br/>Display"]
+    end
+    
+    Camera --> ImgPrep
+    Microphone --> AudioPrep
+    
+    ImgPrep --> VISUAL
+    AudioPrep --> AUDIO
+    
+    YOLO --> ByteTrack
+    ByteTrack --> MobileSAM
+    
+    VISUAL --> Transformer
+    AUDIO --> Transformer
+    
+    Transformer --> Anomaly
+    Transformer --> Event
+    Transformer --> Motion
+    Transformer --> Dashboard
+    
+    classDef inputStyle fill:#e1f5ff,stroke:#0288d1,stroke-width:2px
+    classDef processStyle fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef analysisStyle fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    classDef fusionStyle fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
+    classDef outputStyle fill:#fce4ec,stroke:#c2185b,stroke-width:2px
+    
+    class Camera,Microphone inputStyle
+    class ImgPrep,AudioPrep processStyle
+    class YOLO,ByteTrack,MobileSAM,OptFlow,AST,Wav2Vec2,HuBERT,Spectral analysisStyle
+    class Transformer fusionStyle
+    class Anomaly,Event,Motion,Dashboard outputStyle
+```
+
 ### High-Level Architecture
 
 ```
