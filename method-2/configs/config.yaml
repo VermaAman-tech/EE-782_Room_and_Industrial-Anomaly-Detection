@@ -1,0 +1,27 @@
+device: auto  # 'cuda' | 'cpu' | 'auto'
+burst:
+  num_frames: 10
+  frame_interval_ms: 50  # ~20 FPS burst
+audio:
+  sample_rate: 16000
+  duration_sec: 2.0
+  channels: 1
+vision:
+  detector: yolov8n  # fast model
+  conf_threshold: 0.3
+  iou_threshold: 0.5
+  classes: null  # use all classes; can be a list of coco IDs
+  tracker: bytetrack  # ultralytics built-in
+  segmentation_model: mobile_sam  # 'mobile_sam' | 'fast_sam'
+  flow: tvl1  # 'tvl1'
+audio_model:
+  hub_model: MIT/ast-finetuned-audioset-10-10-0.4593
+fusion:
+  hidden_dim: 128
+  num_layers: 2
+  num_heads: 4
+  dropout: 0.1
+ui:
+  max_width: 1200
+  theme: light
+
