@@ -86,11 +86,11 @@ graph TB
     Transformer --> Motion
     Transformer --> Dashboard
     
-    classDef inputStyle fill:#e1f5ff,stroke:#0288d1,stroke-width:2px
-    classDef processStyle fill:#fff3e0,stroke:#f57c00,stroke-width:2px
-    classDef analysisStyle fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
-    classDef fusionStyle fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
-    classDef outputStyle fill:#fce4ec,stroke:#c2185b,stroke-width:2px
+    classDef inputStyle fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000
+    classDef processStyle fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000
+    classDef analysisStyle fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000
+    classDef fusionStyle fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000
+    classDef outputStyle fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000
     
     class Camera,Microphone inputStyle
     class ImgPrep,AudioPrep processStyle
