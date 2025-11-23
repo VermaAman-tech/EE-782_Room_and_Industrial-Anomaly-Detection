@@ -30,53 +30,37 @@ The **Multimodal Room Monitor** is an advanced real-time anomaly detection and e
 
 ## System Architecture
 
-flowchart LR
+### Pipeline Diagram (Mermaid)
+
 ```mermaid
-  %% Sensors
-  subgraph SENSORS [Input Layer]
-    CAM["Camera (video frames)"]
-    MIC["Microphone (audio stream)"]
-  end
+flowchart LR
+  CAM[Camera (video frames)]
+  MIC[Microphone (audio stream)]
 
-  %% Preprocessing
-  subgraph PRE [Preprocessing Layer]
-    IMG_PRE["Image Preprocessing: denoise, wavelets, flow"]
-    AUD_PRE["Audio Preprocessing: resample, STFT, mel, CWT"]
-  end
+  IMG_PRE[Image Preprocessing: denoise, wavelets, flow]
+  AUD_PRE[Audio Preprocessing: resample, STFT, mel, CWT]
 
-  %% Visual Analysis
-  subgraph VIS [Visual Analysis]
-    DET["YOLO / DETR Detector"]
-    TRK["ByteTrack Tracker"]
-    SEG["SAM Segmenter"]
-    FLOW["Optical Flow and Motion Analysis"]
-  end
+  DET[YOLO / DETR Detector]
+  TRK[ByteTrack Tracker]
+  SEG[SAM Segmenter]
+  FLOW[Optical Flow and Motion Analysis]
 
-  %% Audio Analysis
-  subgraph AUD [Audio Analysis]
-    AST["AST Model"]
-    WV2["Wav2Vec2"]
-    HUB["HuBERT"]
-    SPEC["Spectral Features"]
-  end
+  AST[AST Model]
+  WV2[Wav2Vec2]
+  HUB[HuBERT]
+  SPEC[Spectral Features]
 
-  %% Fusion
-  subgraph FUS [Fusion Layer]
-    PROJ["Projection and Positional Embeddings"]
-    XATT["Cross Modal Transformer"]
-    POOL["Temporal Pooling"]
-    HEADS["Task Heads: Motion and Event Classifier"]
-  end
+  PROJ[Projection and Positional Embeddings]
+  XATT[Cross Modal Transformer]
+  POOL[Temporal Pooling]
+  HEADS[Task Heads: Motion & Event Classifier]
 
-  %% Output
-  subgraph OUT [Output Layer]
-    ANOM["Anomaly Scoring"]
-    LOG["Event Logging"]
-    DASH["Streamlit Dashboard"]
-    ARTIFACTS["Saved Artifacts"]
-  end
+  ANOM[Anomaly Scoring]
+  LOG[Event Logging]
+  DASH[Streamlit Dashboard]
+  ARTIFACTS[Saved Artifacts]
 
-  %% Flow connections
+  %% Connections
   CAM --> IMG_PRE
   MIC --> AUD_PRE
 
@@ -84,16 +68,16 @@ flowchart LR
   DET --> TRK
   DET --> SEG
   IMG_PRE --> FLOW
-  FLOW --> VIS_RESULTS["Visual Tokens"]
+  FLOW --> VIS_RESULTS[Visual Tokens]
 
   AUD_PRE --> AST
   AUD_PRE --> WV2
   AUD_PRE --> HUB
   AUD_PRE --> SPEC
-  AST --> AUD_EMB["Audio Embeddings"]
+  AST --> AUD_EMB[Audio Embeddings]
   WV2 --> AUD_EMB
   HUB --> AUD_EMB
-  SPEC --> AUD_FEAT["Audio Tokens"]
+  SPEC --> AUD_FEAT[Audio Tokens]
 
   TRK --> VIS_RESULTS
   SEG --> VIS_RESULTS
@@ -108,6 +92,7 @@ flowchart LR
   ANOM --> LOG
   LOG --> DASH
   DASH --> ARTIFACTS
+
 
 ```
 ### High-Level Architecture
