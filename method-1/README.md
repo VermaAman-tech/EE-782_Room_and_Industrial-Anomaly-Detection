@@ -63,6 +63,69 @@ The Multimodal Room Monitor is a sophisticated system that captures synchronized
 
 ## 🏗️ Architecture & Dataflow
 
+
+```mermaid
+graph TB
+    subgraph SENSOR["SENSOR LAYER"]
+        Camera["Camera<br/>(10 frames)"]
+        Microphone["Microphone<br/>(~2 sec)"]
+    end
+    
+    subgraph PREPROCESS["PREPROCESSING LAYER"]
+        ImgPrep["Image<br/>- Denoising<br/>- Grayscale<br/>- Wavelets<br/>- Flow"]
+        AudioPrep["Audio<br/>- STFT<br/>- Mel-spec<br/>- CWT<br/>- Features"]
+    end
+    
+    subgraph MODEL["MODEL LAYER"]
+        Detector["Detector<br/>(YOLOv8)"]
+        Tracker["Tracker<br/>(ByteTrack)"]
+        Segmenter["Segmenter<br/>(MobileSAM)"]
+        AudioModel["Audio<br/>(AST)"]
+    end
+    
+    subgraph FUSION["FUSION LAYER"]
+        subgraph Transformer["Cross-Modal Transformer Encoder"]
+            Visual["Visual<br/>Tokens"]
+            Audio["Audio<br/>Tokens"]
+            Temporal["Temporal<br/>Fusion"]
+        end
+    end
+    
+    subgraph VIZ["VISUALIZATION LAYER"]
+        Streamlit["Streamlit<br/>Dashboard"]
+        Reports["Analysis<br/>Reports"]
+    end
+    
+    Camera --> ImgPrep
+    Microphone --> AudioPrep
+    
+    ImgPrep --> Detector
+    Detector --> Tracker
+    Tracker --> Segmenter
+    AudioPrep --> AudioModel
+    
+    Segmenter --> Visual
+    AudioModel --> Audio
+    Visual --> Temporal
+    Audio --> Temporal
+    
+    Temporal --> Streamlit
+    Temporal --> Reports
+    
+    classDef sensorStyle fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000
+    classDef processStyle fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000
+    classDef modelStyle fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000
+    classDef fusionStyle fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000
+    classDef vizStyle fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000
+    
+    class Camera,Microphone sensorStyle
+    class ImgPrep,AudioPrep processStyle
+    class Detector,Tracker,Segmenter,AudioModel modelStyle
+    class Visual,Audio,Temporal fusionStyle
+    class Streamlit,Reports vizStyle
+```
+
+
 ### High-Level Architecture
 
 ```
