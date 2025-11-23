@@ -30,9 +30,6 @@ The **Multimodal Room Monitor** is an advanced real-time anomaly detection and e
 
 ## System Architecture
 
-
-
-```
 ### High-Level Architecture
 
 ```
@@ -494,7 +491,6 @@ Motion Regions Detection → Moving Areas
 ```
 
 ---
-
 
 #### Phase 4: Audio Analysis
 
