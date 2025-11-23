@@ -30,6 +30,85 @@ The **Multimodal Room Monitor** is an advanced real-time anomaly detection and e
 
 ## System Architecture
 
+flowchart LR
+
+  %% Sensors
+  subgraph SENSORS [Input Layer]
+    CAM["Camera (video frames)"]
+    MIC["Microphone (audio stream)"]
+  end
+
+  %% Preprocessing
+  subgraph PRE [Preprocessing Layer]
+    IMG_PRE["Image Preprocessing: denoise, wavelets, flow"]
+    AUD_PRE["Audio Preprocessing: resample, STFT, mel, CWT"]
+  end
+
+  %% Visual Analysis
+  subgraph VIS [Visual Analysis]
+    DET["YOLO / DETR Detector"]
+    TRK["ByteTrack Tracker"]
+    SEG["SAM Segmenter"]
+    FLOW["Optical Flow and Motion Analysis"]
+  end
+
+  %% Audio Analysis
+  subgraph AUD [Audio Analysis]
+    AST["AST Model"]
+    WV2["Wav2Vec2"]
+    HUB["HuBERT"]
+    SPEC["Spectral Features"]
+  end
+
+  %% Fusion
+  subgraph FUS [Fusion Layer]
+    PROJ["Projection and Positional Embeddings"]
+    XATT["Cross Modal Transformer"]
+    POOL["Temporal Pooling"]
+    HEADS["Task Heads: Motion and Event Classifier"]
+  end
+
+  %% Output
+  subgraph OUT [Output Layer]
+    ANOM["Anomaly Scoring"]
+    LOG["Event Logging"]
+    DASH["Streamlit Dashboard"]
+    ARTIFACTS["Saved Artifacts"]
+  end
+
+  %% Flow connections
+  CAM --> IMG_PRE
+  MIC --> AUD_PRE
+
+  IMG_PRE --> DET
+  DET --> TRK
+  DET --> SEG
+  IMG_PRE --> FLOW
+  FLOW --> VIS_RESULTS["Visual Tokens"]
+
+  AUD_PRE --> AST
+  AUD_PRE --> WV2
+  AUD_PRE --> HUB
+  AUD_PRE --> SPEC
+  AST --> AUD_EMB["Audio Embeddings"]
+  WV2 --> AUD_EMB
+  HUB --> AUD_EMB
+  SPEC --> AUD_FEAT["Audio Tokens"]
+
+  TRK --> VIS_RESULTS
+  SEG --> VIS_RESULTS
+
+  VIS_RESULTS --> PROJ
+  AUD_EMB --> PROJ
+  AUD_FEAT --> PROJ
+
+  PROJ --> XATT --> POOL --> HEADS
+
+  HEADS --> ANOM
+  ANOM --> LOG
+  LOG --> DASH
+  DASH --> ARTIFACTS
+
 ### High-Level Architecture
 
 ```
