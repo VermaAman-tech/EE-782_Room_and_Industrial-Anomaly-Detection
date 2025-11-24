@@ -1,4 +1,4 @@
-# Multimodal Room Monitor - Comprehensive Documentation
+# Multimodal Anomaly detector - Comprehensive Documentation
 
 ## Table of Contents
 1. [Project Overview](#project-overview)
@@ -16,7 +16,7 @@
 
 ## Project Overview
 
-The **Multimodal Room Monitor** is an advanced real-time anomaly detection and event monitoring system that combines computer vision and audio analysis to provide comprehensive environmental awareness. The system processes synchronized video frames and audio streams to detect objects, track movements, identify audio events, and fuse multimodal information for intelligent anomaly detection.
+The **Multimodal Anomaly detector** is an advanced real-time anomaly detection and event monitoring system that combines computer vision and audio analysis to provide comprehensive environmental awareness. The system processes synchronized video frames and audio streams to detect objects, track movements, identify audio events, and fuse multimodal information for intelligent anomaly detection.
 
 ### Key Capabilities
 - **Real-time Visual Analysis**: Object detection, tracking, segmentation, and motion analysis
