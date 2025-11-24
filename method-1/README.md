@@ -1,4 +1,4 @@
-# Multimodal Room Monitor
+# Multimodal Anomaly detector
 
 An advanced, open-source multimodal perception system that synchronizes video frames with audio to perform real-time object detection, tracking, segmentation, audio classification, and cross-modal fusion. The system combines state-of-the-art computer vision and audio processing models with a lightweight transformer-based fusion architecture to provide comprehensive room monitoring capabilities.
 
@@ -22,7 +22,7 @@ An advanced, open-source multimodal perception system that synchronizes video fr
 
 ## 🎯 Overview
 
-The Multimodal Room Monitor is a sophisticated system that captures synchronized video and audio data, processes them through multiple AI models, and fuses the information to provide intelligent insights about room activity. It's designed to be fast, efficient, and runnable on standard laptops while leveraging cutting-edge deep learning models.
+The Multimodal Anomaly detector is a sophisticated system that captures synchronized video and audio data, processes them through multiple AI models, and fuses the information to provide intelligent insights about room activity. It's designed to be fast, efficient, and runnable on standard laptops while leveraging cutting-edge deep learning models.
 
 ### Core Capabilities
 
